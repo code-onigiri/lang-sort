@@ -9,10 +9,10 @@
 キーの形式を利用してソートするため、クエストの言語ファイルには効果的ではありません。 
 別途、FTBQuest用のソートツール[ftbq-sort](https://github.com/he1se1/ftbq-sort)を公開しています。
 
-Minecraft v1.12.2-1.20のlangファイルに対応しています。
+Minecraftのlangファイルに対応しています。
 
-* v1.12.2: `.lang` 形式
-* v1.13+: `.json` 形式
+* ~v1.12.2: `.lang` 形式
+* v1.13~: `.json` 形式
 
 ## 🚀 インストール (Installation)
 
