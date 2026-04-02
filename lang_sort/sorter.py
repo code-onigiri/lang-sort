@@ -54,11 +54,11 @@ class AnchorLangSorter:
             else:
                 self.unanchored_keys.append(key)
 
-    def sort_to_json_string(self) -> str:
-        """データをソートし、空行を挿入したJSON形式の文字列を返す"""
+    def sort_entries(self) -> list:
+        """データをソートし、空行位置を含む順序付きエントリを返す。"""
         self._build_anchors_and_cluster()
-        
-        sorted_final_data = {}
+
+        sorted_entries = []
         dummy_counter = 0
 
         def sort_cluster_keys(keys):
@@ -68,24 +68,30 @@ class AnchorLangSorter:
         
         for i, anchor in enumerate(anchors):
             keys_in_cluster = sort_cluster_keys(self.anchor_clusters[anchor])
-            
+
             for k in keys_in_cluster:
-                sorted_final_data[k] = self.data[k]
-            
+                sorted_entries.append((k, self.data[k]))
+
             # 空行判定ロジック
             if i < len(anchors) - 1:
                 next_anchor = anchors[i + 1]
                 next_keys = self.anchor_clusters[next_anchor]
                 if len(keys_in_cluster) > 1 or len(next_keys) > 1:
-                    sorted_final_data[f"__BLANK_LINE_{dummy_counter}__"] = ""
+                    sorted_entries.append((f"__BLANK_LINE_{dummy_counter}__", ""))
                     dummy_counter += 1
 
         if self.unanchored_keys and anchors:
-            sorted_final_data[f"__BLANK_LINE_{dummy_counter}__"] = ""
+            sorted_entries.append((f"__BLANK_LINE_{dummy_counter}__", ""))
             dummy_counter += 1
-            
+
         for k in sorted(self.unanchored_keys, key=self._natural_sort_key):
-            sorted_final_data[k] = self.data[k]
+            sorted_entries.append((k, self.data[k]))
+
+        return sorted_entries
+
+    def sort_to_json_string(self) -> str:
+        """データをソートし、空行を挿入したJSON形式の文字列を返す"""
+        sorted_final_data = dict(self.sort_entries())
 
         # メモリ上でJSON文字列を生成
         json_text = json.dumps(sorted_final_data, indent=2, ensure_ascii=False)

@@ -4,12 +4,15 @@
 
 日本語 | [English](README_en.md)
 
-`lang-sort` は、Minecraftの多言語対応のための言語ファイル（`lang/xx_xx.json`）を賢くソートするCLIツールです。
+`lang-sort` は、Minecraftの多言語対応のための言語ファイル（`lang/xx_xx.json` / `lang/xx_xx.lang`）を賢くソートするCLIツールです。
 
 キーの形式を利用してソートするため、クエストの言語ファイルには効果的ではありません。 
 別途、FTBQuest用のソートツール[ftbq-sort](https://github.com/he1se1/ftbq-sort)を公開しています。
 
-Minecraft v1.13-1.20のjson形式のlangファイルに対応しています。
+Minecraft v1.12.2-1.20のlangファイルに対応しています。
+
+* v1.12.2: `.lang` 形式
+* v1.13+: `.json` 形式
 
 ## 🚀 インストール (Installation)
 
@@ -33,8 +36,10 @@ lang-sort <入力langファイルのパス> <出力langファイルのパス>
 
 ### 引数の説明
 
-* `lang_in`: ソートしたい元の言語ファイル（JSON）のパスを指定します。
+* `lang_in`: ソートしたい元の言語ファイル（`.json` / `.lang`）のパスを指定します。
 * `lang_out`: 整列済みのデータを出力する先のファイルパスを指定します。（入力ファイルと同じパスを指定して上書きすることも可能です）
+
+拡張子から形式を自動判定します（`.json` / `.lang`）。必要に応じて `--input-format` / `--output-format` で明示指定できます。
 
 ### 実行例
 
@@ -42,6 +47,10 @@ lang-sort <入力langファイルのパス> <出力langファイルのパス>
 lang-sort ./kubejs/assets/kubejs/lang/ja_jp.json ./kubejs/assets/kubejs/lang/ja_jp_sorted.json
 ```
 (あとで `ja_jp_sorted.json` を `ja_jp.json` にリネームして上書きしないとゲームに反映されないことに注意してください)
+
+```bash
+lang-sort ./assets/examplemod/lang/ja_jp.lang ./assets/examplemod/lang/ja_jp_sorted.lang
+```
 
 ## 📝 依存ライブラリ
 ありません。
